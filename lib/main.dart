@@ -27,6 +27,7 @@ class MainViwe extends StatelessWidget {
     // bygger temporärt en lista av classen items
     var items = itemCreatorTesting();
     items.forEach((element) => (element.testPrint()));
+
     // ******************************************
     return Scaffold(
       appBar: AppBar(
@@ -36,16 +37,43 @@ class MainViwe extends StatelessWidget {
           IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
         ],
       ),
-      body: ListView(),
+      body: _itemRow(items),
     );
   }
 
-  Widget _itemRow() {
-    return Row(
-      children: [],
+  void _onChanged(bool? value) {}
+
+  Widget _itemRow(items) {
+    return ListView.builder(
+      itemBuilder: (context, index) => Row(children: [
+        _itemCheckBox(items[index].isDone),
+        _itemText(items[index].name),
+      ]),
+      itemCount: items.length,
     );
   }
 
+  Widget _itemCheckBox(itemIsDone) {
+    return Container(
+      margin: EdgeInsets.all(20.0),
+      child: Checkbox(
+        value: false,
+        onChanged: _onChanged,
+      ),
+    );
+  }
+
+  Widget _itemText(itemName) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Text(
+        itemName,
+        style: TextStyle(fontSize: 36),
+      ),
+    );
+  }
+
+// itemCreator är till för testning
   itemCreatorTesting() {
     var items = [];
     var lista = [
@@ -76,6 +104,7 @@ class Item {
     }
   }
 
+  // endast för att testa så classen byggts korrekt
   testPrint() {
     print("Item name: $name");
     print("Item is done: $isDone");

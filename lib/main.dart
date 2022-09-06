@@ -38,6 +38,15 @@ class MainViwe extends StatelessWidget {
         ],
       ),
       body: _itemRow(items),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddItemViwe()),
+          );
+        },
+        child: Icon(Icons.add_shopping_cart),
+      ),
     );
   }
 
@@ -45,10 +54,13 @@ class MainViwe extends StatelessWidget {
 
   Widget _itemRow(items) {
     return ListView.builder(
-      itemBuilder: (context, index) => Row(children: [
-        _itemCheckBox(items[index].isDone),
-        _itemText(items[index].name),
-      ]),
+      itemBuilder: (context, index) => Row(
+        children: [
+          _itemCheckBox(items[index].isDone),
+          _itemText(items[index].name),
+          _itemRemove(),
+        ],
+      ),
       itemCount: items.length,
     );
   }
@@ -64,12 +76,25 @@ class MainViwe extends StatelessWidget {
   }
 
   Widget _itemText(itemName) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Text(
-        itemName,
-        style: TextStyle(fontSize: 36),
+    return Expanded(
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            itemName,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 24),
+          ),
+        ),
       ),
+    );
+  }
+
+  Widget _itemRemove() {
+    return IconButton(
+      onPressed: () {},
+      padding: EdgeInsets.all(20.0),
+      icon: Icon(Icons.delete_outline),
     );
   }
 
@@ -86,6 +111,54 @@ class MainViwe extends StatelessWidget {
       items.add(new Item(lista[i]));
     }
     return items;
+  }
+}
+
+class AddItemViwe extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: 60, right: 60),
+              child: _textField(),
+            ),
+            _addButton(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _textField() {
+    return Container(
+      padding: EdgeInsets.only(top: 10),
+      child: const TextField(
+        decoration: InputDecoration(
+          hintText: "What are you gong to add?",
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+            width: 1,
+          )),
+        ),
+      ),
+    );
+  }
+
+  Widget _addButton() {
+    return TextButton(
+      onPressed: () {},
+      child: const Text(
+        "+ ADD",
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 }
 

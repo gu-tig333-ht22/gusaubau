@@ -11,6 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Inlämningsupgift moment 1 TIG333',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -29,12 +30,25 @@ class MainViwe extends StatelessWidget {
     items.forEach((element) => (element.testPrint()));
 
     // ******************************************
+    String valtFilter = "All";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
-        title: const Text("TIG 333 ToDo"),
+        title: Center(child: const Text("TIG 333 ToDo")),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
+          DropdownButtonHideUnderline(
+            child: Container(
+              color: Colors.grey,
+              child: DropdownButton(
+                  icon: Icon(Icons.more_vert),
+                  items: [
+                    filterVal("All"),
+                    filterVal("Done"),
+                    filterVal("Undone")
+                  ],
+                  onChanged: (value) {}),
+            ),
+          ),
         ],
       ),
       body: _itemRow(items),
@@ -50,7 +64,15 @@ class MainViwe extends StatelessWidget {
     );
   }
 
+  DropdownMenuItem<String> filterVal(String value) {
+    return DropdownMenuItem(value: value, child: Text(value));
+  }
+
   void _onChanged(bool? value) {}
+
+  Widget _DropdownAll() {
+    return Text("All");
+  }
 
   Widget _itemRow(items) {
     return ListView.builder(

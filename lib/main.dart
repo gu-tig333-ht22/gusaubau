@@ -27,10 +27,11 @@ class MainViwe extends StatelessWidget {
     // ******************************************
     // bygger temporärt en lista av classen items
     var items = itemCreatorTesting();
-    items.forEach((element) => (element.testPrint()));
+    // items.forEach((element) => (element.testPrint()));
 
     // ******************************************
     String valtFilter = "All";
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,
@@ -145,7 +146,8 @@ class AddItemViwe extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(left: 60, right: 60),
+              margin: const EdgeInsets.only(
+                  left: 60, right: 60, top: 20, bottom: 20),
               child: _textField(),
             ),
             _addButton(),
@@ -156,16 +158,13 @@ class AddItemViwe extends StatelessWidget {
   }
 
   Widget _textField() {
-    return Container(
-      padding: EdgeInsets.only(top: 10),
-      child: const TextField(
-        decoration: InputDecoration(
-          hintText: "What are you gong to add?",
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-            width: 1,
-          )),
-        ),
+    return const TextField(
+      decoration: InputDecoration(
+        hintText: "What are you gong to add?",
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+          width: 1,
+        )),
       ),
     );
   }
@@ -183,6 +182,7 @@ class AddItemViwe extends StatelessWidget {
     );
   }
 }
+// eventuelt göra listTile
 
 class Item {
   var name;

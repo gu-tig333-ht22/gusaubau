@@ -14,13 +14,6 @@ class _MainViweState extends State<MainViwe> {
   String valtFilter = "All";
   @override
   Widget build(BuildContext context) {
-    // ******************************************
-    // bygger temporärt en lista av classen items
-    //var items = itemCreatorTesting();
-    // items.forEach((element) => (element.testPrint()));
-
-    // ******************************************
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.grey,

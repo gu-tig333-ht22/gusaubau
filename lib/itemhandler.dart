@@ -3,8 +3,10 @@ import 'package:flutter/cupertino.dart';
 class ItemHandler extends ChangeNotifier {
   List<Item> _items = [];
   ItemHandler() {
-    _items = itemCreatorTesting();
-    _items.forEach((element) => (element.testPrint()));
+    _items = itemCreatorTesting(); // för test skapas en lista med Item
+
+    _items.forEach((element) => (element
+        .testPrint())); // lista skrivs ut i konsollen för att underlätta testande.
   }
 
   List<Item> get items => _items;

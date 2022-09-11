@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
 class ItemHandler extends ChangeNotifier {
-  var _items;
+  List<Item> _items = [];
   ItemHandler() {
     _items = itemCreatorTesting();
     _items.forEach((element) => (element.testPrint()));
   }
 
-  List get items => _items;
+  List<Item> get items => _items;
 
   void addItem(String newItemName) {
     _items.add(Item(newItemName));
@@ -25,7 +25,7 @@ class ItemHandler extends ChangeNotifier {
   }
 
   itemCreatorTesting() {
-    var items = [];
+    List<Item> items = [];
     var lista = [
       "Städa",
       "Handla",

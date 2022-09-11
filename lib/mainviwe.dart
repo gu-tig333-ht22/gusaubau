@@ -1,9 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import './itemrow.dart';
+import 'package:provider/provider.dart';
+
+import 'package:template/ItemViwe.dart';
+import 'package:template/itemhandler.dart';
 import './addviwe.dart';
 
-class MainViwe extends StatelessWidget {
+class MainViwe extends StatefulWidget {
+  @override
+  State<MainViwe> createState() => _MainViweState();
+}
+
+class _MainViweState extends State<MainViwe> {
+  String valtFilter = "All";
   @override
   Widget build(BuildContext context) {
     // ******************************************
@@ -12,7 +20,6 @@ class MainViwe extends StatelessWidget {
     // items.forEach((element) => (element.testPrint()));
 
     // ******************************************
-    String valtFilter = "All";
 
     return Scaffold(
       appBar: AppBar(
@@ -31,13 +38,21 @@ class MainViwe extends StatelessWidget {
                       filterVal("Done"),
                       filterVal("Undone")
                     ],
-                    onChanged: (value) {}),
+                    onChanged: (value) {
+                      setState(() {
+                        valtFilter = value.toString();
+                      });
+                    }),
               ),
             ),
           ),
         ],
       ),
-      body: ItemRow(),
+      body: Consumer<ItemHandler>(
+        builder: (context, ItemHandler, _) =>
+            ItemViwe(_filtreraLista(ItemHandler.items, valtFilter)),
+      ),
+      // body: ItemRow(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
@@ -52,5 +67,31 @@ class MainViwe extends StatelessWidget {
 
   DropdownMenuItem<String> filterVal(String value) {
     return DropdownMenuItem(value: value, child: Text(value));
+  }
+
+  List<Item> _filtreraLista(lista, valtFiler) {
+    if (valtFiler == "Done") {
+      List<Item> newList = [];
+      lista.forEach(
+        (item) {
+          if (item.isDone) {
+            newList.add(item);
+          }
+        },
+      );
+      return newList;
+    } else if (valtFiler == "Undone") {
+      List<Item> newList = [];
+      lista.forEach(
+        (item) {
+          if (!item.isDone) {
+            newList.add(item);
+          }
+        },
+      );
+      return newList;
+    } else {
+      return lista;
+    }
   }
 }

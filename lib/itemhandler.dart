@@ -44,12 +44,15 @@ class ItemHandler extends ChangeNotifier {
 class Item {
   var _name;
   var _isDone;
-  Item(String name, {isDone = false}) {
+  var _id;
+  Item(String name, {String id = "", isDone = false}) {
     this._name = name;
     this._isDone = isDone;
+    this.id;
   }
   String get name => _name;
   bool get isDone => _isDone;
+  String get id => _id;
 
   set name(String newName) {
     _name = newName;

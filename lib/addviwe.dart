@@ -12,10 +12,9 @@ class AddItemViwe extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.only(
-                  left: 60, right: 60, top: 20, bottom: 20),
-              child: AddItem(),
+              height: 20,
             ),
+            AddItem(),
           ],
         ),
       ),
@@ -31,7 +30,7 @@ class AddItem extends StatelessWidget {
       return Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.only(left: 70, right: 70),
             child: TextField(
               controller: userInput,
               decoration: const InputDecoration(
@@ -49,11 +48,14 @@ class AddItem extends StatelessWidget {
               ItemHandler.addItem(userInput.text);
               Navigator.pop(context);
             },
-            child: const Text(
-              "+ ADD",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+            child: const Padding(
+              padding: EdgeInsets.only(top: 20.0),
+              child: Text(
+                "+ ADD",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           )

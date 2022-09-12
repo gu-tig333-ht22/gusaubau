@@ -48,7 +48,7 @@ class Item {
   Item(String name, {String id = "", isDone = false}) {
     this._name = name;
     this._isDone = isDone;
-    this.id;
+    this._id = id;
   }
   String get name => _name;
   bool get isDone => _isDone;

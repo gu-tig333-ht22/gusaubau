@@ -11,105 +11,197 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Inlämningsupgift moment 1 TIG333',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MainViwe(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+class MainViwe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    // ******************************************
+    // bygger temporärt en lista av classen items
+    var items = itemCreatorTesting();
+    // items.forEach((element) => (element.testPrint()));
+
+    // ******************************************
+    String valtFilter = "All";
+
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: Colors.grey,
+        title: Center(child: const Text("TIG 333 ToDo")),
+        actions: [
+          DropdownButtonHideUnderline(
+            child: Container(
+              color: Colors.grey,
+              child: DropdownButton(
+                  icon: Icon(Icons.more_vert),
+                  items: [
+                    filterVal("All"),
+                    filterVal("Done"),
+                    filterVal("Undone")
+                  ],
+                  onChanged: (value) {}),
+            ),
+          ),
+        ],
       ),
+      body: _itemRow(items),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddItemViwe()),
+          );
+        },
+        child: Icon(Icons.add_shopping_cart),
+      ),
+    );
+  }
+
+  DropdownMenuItem<String> filterVal(String value) {
+    return DropdownMenuItem(value: value, child: Text(value));
+  }
+
+  void _onChanged(bool? value) {}
+
+  Widget _DropdownAll() {
+    return Text("All");
+  }
+
+  Widget _itemRow(items) {
+    return ListView.builder(
+      itemBuilder: (context, index) => Row(
+        children: [
+          _itemCheckBox(items[index].isDone),
+          _itemText(items[index].name),
+          _itemRemove(),
+        ],
+      ),
+      itemCount: items.length,
+    );
+  }
+
+  Widget _itemCheckBox(itemIsDone) {
+    return Container(
+      margin: EdgeInsets.all(20.0),
+      child: Checkbox(
+        value: false,
+        onChanged: _onChanged,
+      ),
+    );
+  }
+
+  Widget _itemText(itemName) {
+    return Expanded(
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            itemName,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 24),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _itemRemove() {
+    return IconButton(
+      onPressed: () {},
+      padding: EdgeInsets.all(20.0),
+      icon: Icon(Icons.delete_outline),
+    );
+  }
+
+// itemCreator är till för testning
+  itemCreatorTesting() {
+    var items = [];
+    var lista = [
+      "Städa",
+      "Handla",
+      "Gå slackline med Gustaf",
+      "Springa med Mårten",
+    ];
+    for (int i = 0; i < lista.length; i++) {
+      items.add(new Item(lista[i]));
+    }
+    return items;
+  }
+}
+
+class AddItemViwe extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+          children: [
+            Container(
+              margin: const EdgeInsets.only(
+                  left: 60, right: 60, top: 20, bottom: 20),
+              child: _textField(),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            _addButton(),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  Widget _textField() {
+    return const TextField(
+      decoration: InputDecoration(
+        hintText: "What are you gong to add?",
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+          width: 1,
+        )),
+      ),
+    );
+  }
+
+  Widget _addButton() {
+    return TextButton(
+      onPressed: () {},
+      child: const Text(
+        "+ ADD",
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+// eventuelt göra listTile
+
+class Item {
+  var name;
+  var isDone;
+  Item(String name, {isDone = false}) {
+    this.name = name;
+    this.isDone = isDone;
+  }
+  setIsDone() {
+    if (isDone) {
+      isDone = false;
+    } else {
+      isDone = true;
+    }
+  }
+
+  // endast för att testa så classen byggts korrekt
+  testPrint() {
+    print("Item name: $name");
+    print("Item is done: $isDone");
   }
 }

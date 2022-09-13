@@ -48,3 +48,4 @@ app.*.map.json
 
 lib/api.txt
 lib/testRequest.dart
+lib/requesthandler.dart

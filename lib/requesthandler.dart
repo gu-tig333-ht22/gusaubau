@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'itemhandler.dart';
 
 class RequestHandler {
   String _mainUrl = "https://todoapp-api.apps.k8s.gu.se";
@@ -29,24 +28,16 @@ class RequestHandler {
     http.Response respons = await http.get(
       Uri.parse(url),
     );
-
-    debugPrint(respons.statusCode.toString());
-    final responsJson = jsonDecode(respons.body);
-    print(responsJson[0]["id"]);
+    return jsonDecode(respons.body);
   }
 
-  Future AddTodo(String newName) async {
-    //Map data = {"title": "Städa"};
-    //var body = {"title": Item.name()};
+  Future addTodo(String newName) async {
     http.Response respons = await http.post(
       Uri.parse(url),
       headers: {"Content-Type": "application/json"},
       body: json.encode({"title": newName}),
-      // encoding: json,
     );
-    debugPrint(respons.statusCode.toString());
-    final responsJson = jsonDecode(respons.body);
-    print(responsJson);
+    return jsonDecode(respons.body);
   }
 
   // Future DeleteTodo(Item) async {

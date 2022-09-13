@@ -46,6 +46,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-lib/api.txt
-lib/testRequest.dart
-lib/requesthandler.dart
+

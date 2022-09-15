@@ -5,11 +5,10 @@ import 'package:http/http.dart' as http;
 
 class ItemHandler extends ChangeNotifier {
   List<Item> _items = [];
-  String url =
-      "https://todoapp-api.apps.k8s.gu.se/todos/?key=14e7b2e6-97c1-47dc-9583-0fed83f884a0";
-  String _mainUrl = "https://todoapp-api.apps.k8s.gu.se";
+  String url = "http://127.0.0.1:5000/api/shoppingList";
+  String _mainUrl = "http://192.168.1.223:5000";
   String _myKey = "14e7b2e6-97c1-47dc-9583-0fed83f884a0";
-  String _path = "/todos/";
+  String _path = "/api/shoppingList";
 
   // Construktor
   ItemHandler() {
@@ -19,17 +18,17 @@ class ItemHandler extends ChangeNotifier {
   List<Item> get items => _items; // getter för lista med items
 
   Future newItemList() async {
-    http.Response response = await http.get(
-      Uri.parse(url),
-    );
+    String tempUrl = "$_mainUrl$_path";
+    http.Response response = await http.get(Uri.parse(url));
     _items = createList(jsonDecode(response.body));
     notifyListeners();
   }
 
   Future addItem(String newItemName) async {
+    String tempUrl = "$_mainUrl$_path";
     http.Response response = await http.post(
       Uri.parse(url),
-      headers: {"Content-Type": "application/json"},
+      // headers: {"Content-Type": "application/json"},
       body: json.encode({"title": newItemName}),
     );
     _items = createList(json.decode(response.body));
@@ -37,7 +36,7 @@ class ItemHandler extends ChangeNotifier {
   }
 
   Future updateItemIsDone(Item itemToUpdate) async {
-    String tempUrl = "$_mainUrl$_path${itemToUpdate.id}?key=$_myKey";
+    String tempUrl = "$_mainUrl$_path/${itemToUpdate.id}";
 
     http.Response response = await http.put(
       Uri.parse(tempUrl),
@@ -52,7 +51,7 @@ class ItemHandler extends ChangeNotifier {
   }
 
   Future removeItem(Item itemToRemove) async {
-    String tempUrl = "$_mainUrl$_path${itemToRemove.id}?key=$_myKey";
+    String tempUrl = "$_mainUrl$_path/${itemToRemove.id}";
     http.Response response = await http.delete(Uri.parse(tempUrl));
     _items = createList(json.decode(response.body));
     notifyListeners();
